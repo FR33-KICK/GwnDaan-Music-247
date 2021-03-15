@@ -23,8 +23,6 @@ client.on("ready", () => {
 
         play(connection)
     })
-}).app.listen(process.env.PORT || 5000, function() {
-    console.log("Server started.......");
 });
 
 client.login(process.env.token)
