@@ -1,25 +1,28 @@
-const { TOKEN, CHANNEL, SERVER, STATUS, LIVE } = require("./config.json");
-const discord = require("discord.js");
-const client = new discord.Client();
-const ytdl = require('ytdl-core');
+const Discord = require("discord.js")
+const ytdl = require("ytdl-core")
+const {
+    token,
+    channel_id,
+    video_urls
+} = require("./config.json")
+const client = new Discord.Client()
 
-client.on('ready', async () => {
-  client.user.setActivity(STATUS + " 😎")
-  let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
 
-  if(!channel) return;
-  const connection = await channel.join();
-  connection.play(ytdl(LIVE))
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}`)
+    const voiceChannel = client.channels.cache.get(channel_id)
+    voiceChannel.join().then(connection => {
+        console.log("Joined voice channel")
+        function play(connection) {
+            const stream = ytdl(video_urls[Math.floor(Math.random() * video_urls.length)], { filter: "audioonly" })
+            const dispatcher = connection.play(stream)
+            dispatcher.on("finish", () => {
+                play(connection)
+            })
+        }
+
+        play(connection)
+    })
 })
 
-setInterval(async function() {
-  if(!client.voice.connections.get(SERVER)) {
-    let channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
-    if(!channel) return;
-
-    const connection = await channel.join()
-    connection.play(ytdl(LIVE))
-  }
-}, 20000)
-
-client.login(TOKEN) //TEST
+client.login(token)
