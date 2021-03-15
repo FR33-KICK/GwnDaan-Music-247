@@ -23,8 +23,6 @@ client.on("ready", () => {
 
         play(connection)
     })
-}).server.listen(config.port, function () {
-    console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
-  });
+})
 
 client.login(process.env.token)
