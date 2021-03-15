@@ -4,7 +4,8 @@
   "description": "A 24/7 music bot for Discord that can play from a list of user-defined videos.",
   "main": "index.js",
   "scripts": {
-    "bot": "node ."
+    "bot": "node .",
+    "start": "node index.js"
   },
   "author": "cnnd",
   "license": "GPL-3.0-only",
